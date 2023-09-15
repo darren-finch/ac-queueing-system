@@ -26,11 +26,15 @@ After following these steps, `localhost:3000` should open in your web browser an
 
 # How To Use App
 
-The app displays two primary sections: "Aircraft Queue" and "Last Dequeued Aircraft". The "Aircraft Queue" section displays 4 subqueues and their associated priorities. `LargePassengerAircraft` goes in queue with priority 3, `SmallPassengerAircraft` goes in queue with priority 2, and so on.
+When you open the app for the first time, the app displays a "Boot System" button which you will have to press to continue.
+
+After booting the system, the app displays two primary sections: "Aircraft Queue" and "Last Dequeued Aircraft". The "Aircraft Queue" section displays 4 subqueues and their associated priorities. `LargePassengerAircraft` goes in queue with priority 3, `SmallPassengerAircraft` goes in queue with priority 2, and so on.
 
 To enqueue a new aircraft, select the aircraft type from the dropdown and press the "Enqueue New Aircraft" button. You will see a new aircraft appear in the appropriate queue for the selected type as well as the enqueued time for the aircraft.
 
 To dequeue an aircraft, press the dequeue button. The appropriate aircraft will be selected for dequeueing and it will appear in the "Last Dequeued Aircraft" section along with the time it was dequeued. If there are no aircraft to dequeue, an alert will appear on-screen.
+
+_Important Note:_ This queueing system does not have persistence so if you refresh the page it will reset all of the data.
 
 # How To Test
 
