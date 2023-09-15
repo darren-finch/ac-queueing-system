@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { AircraftQueueComponent } from "./layouts/AircraftQueueComponent"
-import { aircraftQueueRepository } from "./data/Repository"
-import { Aircraft } from "./logic/aircraft"
+import { Aircraft } from "./logic/Aircraft"
 import { LastDequeuedAircraftComponent } from "./layouts/LastDequeuedAircraftComponent"
 import { aircraftTypes } from "./data/AircraftTypes"
+import { aircraftQueueInstance } from "./logic/AircraftQueue"
 
 const App = () => {
-	const [listOfListsOfAircraft, setListOfListsOfAircraft] = useState<Aircraft[][]>(
+	const [listOfAircraftSubqueues, setlistOfAircraftSubqueues] = useState<Aircraft[][]>(
 		aircraftTypes.map(() => [] as Aircraft[])
 	)
 	const [lastDequeuedAircraft, setLastDequeuedAircraft] = useState<Aircraft | undefined>(undefined)
@@ -14,12 +14,12 @@ const App = () => {
 	const [systemBooted, setSystemBooted] = useState(false)
 
 	useEffect(() => {
-		return aircraftQueueRepository.addListener({
-			onAircraftEnqueued(listOfListsOfAircraft) {
-				setListOfListsOfAircraft(listOfListsOfAircraft)
+		return aircraftQueueInstance.addListener({
+			onAircraftEnqueued(listOfAircraftSubqueues) {
+				setlistOfAircraftSubqueues(listOfAircraftSubqueues)
 			},
-			onAircraftDequeued(listOfListsOfAircraft, aircraft) {
-				setListOfListsOfAircraft(listOfListsOfAircraft)
+			onAircraftDequeued(listOfAircraftSubqueues, aircraft) {
+				setlistOfAircraftSubqueues(listOfAircraftSubqueues)
 				setLastDequeuedAircraft(aircraft)
 			},
 		})
@@ -29,7 +29,7 @@ const App = () => {
 		<div className="container" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
 			{systemBooted ? (
 				<>
-					<AircraftQueueComponent listOfListsOfAircraft={listOfListsOfAircraft}></AircraftQueueComponent>
+					<AircraftQueueComponent listOfAircraftSubqueues={listOfAircraftSubqueues}></AircraftQueueComponent>
 					<LastDequeuedAircraftComponent
 						lastDequeuedAircraft={lastDequeuedAircraft}></LastDequeuedAircraftComponent>
 				</>

@@ -34,4 +34,4 @@ To dequeue an aircraft, press the dequeue button. The appropriate aircraft will 
 
 # How To Test
 
-Open the terminal inside VSCode and ensure you are at the root folder of the app. Then run `npm run test`. You should see 3 test suites and 19 tests pass.
+Open the terminal inside VSCode and ensure you are at the root folder of the app. Then run `npm run test`. You should see 2 test suites and 16 tests pass.

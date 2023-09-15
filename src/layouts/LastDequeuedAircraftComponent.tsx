@@ -1,4 +1,4 @@
-import { Aircraft } from "../logic/aircraft"
+import { Aircraft } from "../logic/Aircraft"
 
 export interface LastDequeuedAircraftComponentProps {
 	lastDequeuedAircraft: Aircraft | undefined

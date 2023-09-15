@@ -1,13 +1,13 @@
 import React from "react"
-import { Aircraft } from "../logic/aircraft"
+import { Aircraft } from "../logic/Aircraft"
 import { aircraftTypes } from "../data/AircraftTypes"
-import { aircraftQueueRepository } from "../data/Repository"
+import { aircraftQueueInstance } from "../logic/AircraftQueue"
 
 interface AircraftQueueComponentProps {
-	listOfListsOfAircraft: Aircraft[][]
+	listOfAircraftSubqueues: Aircraft[][]
 }
 
-export const AircraftQueueComponent: React.FC<AircraftQueueComponentProps> = ({ listOfListsOfAircraft }) => {
+export const AircraftQueueComponent: React.FC<AircraftQueueComponentProps> = ({ listOfAircraftSubqueues }) => {
 	const handleEnqueueNewAircraft = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		const aircraftTypeSelect = document.getElementById("aircraftTypeSelect") as HTMLSelectElement
@@ -15,14 +15,14 @@ export const AircraftQueueComponent: React.FC<AircraftQueueComponentProps> = ({ 
 		if (aircraftType === undefined) {
 			throw new Error("Aircraft type not found")
 		}
-		aircraftQueueRepository.enqueue(aircraftType.getName())
+		aircraftQueueInstance.enqueue(new Aircraft(aircraftType.getName()))
 	}
 
 	const handleDequeueAircraft = () => {
-		if (aircraftQueueRepository.isEmpty()) {
+		if (aircraftQueueInstance.isEmpty()) {
 			alert("Aircraft queue is empty")
 		} else {
-			aircraftQueueRepository.dequeue()
+			aircraftQueueInstance.dequeue()
 		}
 	}
 
@@ -54,10 +54,10 @@ export const AircraftQueueComponent: React.FC<AircraftQueueComponentProps> = ({ 
 			<p>(higher priority numbers come first)</p>
 
 			<ul>
-				{listOfListsOfAircraft.map((listOfAircraft, index) => {
+				{listOfAircraftSubqueues.map((listOfAircraft, index) => {
 					return (
 						<div key={index} className="card my px py">
-							<h2 className="my-0">Priority {listOfListsOfAircraft.length - (index + 1)} Aircraft</h2>
+							<h2 className="my-0">Priority {listOfAircraftSubqueues.length - (index + 1)} Aircraft</h2>
 							<li>
 								<ul>
 									{listOfAircraft.map((aircraft, index) => {

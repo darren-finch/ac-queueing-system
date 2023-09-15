@@ -1,6 +1,6 @@
-import { Aircraft } from "./aircraft"
-import AircraftQueue from "./aircraft-queue"
-import AircraftType from "./aircraft-type"
+import { Aircraft } from "./Aircraft"
+import AircraftQueue from "./AircraftQueue"
+import AircraftType from "./AircraftType"
 
 let aircraftTypes = [
 	new AircraftType(3, "LargePassengerAircraft"),
@@ -10,6 +10,8 @@ let aircraftTypes = [
 ]
 
 let aircraftQueue = new AircraftQueue(aircraftTypes)
+
+const fakeDate = new Date("2020-01-01")
 
 beforeEach(() => {
 	aircraftQueue = new AircraftQueue(aircraftTypes)
@@ -82,7 +84,6 @@ test("when aircraftQueue is empty, enqueue successfully adds several aircraft an
 })
 
 test("enqueue properly adds enqueue time to aircraft", () => {
-	const fakeDate = new Date("2020-01-01")
 	jest.useFakeTimers().setSystemTime(fakeDate)
 
 	const aircraft = new Aircraft("SmallCargoAircraft")
@@ -93,13 +94,47 @@ test("enqueue properly adds enqueue time to aircraft", () => {
 })
 
 test("dequeue properly adds dequeue time to aircraft", () => {
-	const fakeDate = new Date("2020-01-01")
 	jest.useFakeTimers().setSystemTime(fakeDate)
 
 	aircraftQueue.enqueue(new Aircraft("SmallCargoAircraft"))
 	const dequeuedAircraft = aircraftQueue.dequeue()
 
 	expect(dequeuedAircraft!.getDequeuedTime()).toStrictEqual(fakeDate)
+})
+
+test("enqueue notifies listeners", () => {
+	jest.useFakeTimers().setSystemTime(fakeDate)
+
+	const aircraft = new Aircraft("SmallCargoAircraft")
+	aircraft.setEnqueuedTime(fakeDate)
+
+	aircraftQueue.addListener({
+		onAircraftEnqueued: (listOfAircraftSubqueues) => {
+			expect(listOfAircraftSubqueues).toStrictEqual([[], [], [], [aircraft]])
+		},
+		onAircraftDequeued: () => {},
+	})
+
+	aircraftQueue.enqueue(new Aircraft("SmallCargoAircraft"))
+})
+
+test("dequeue notifies listeners", () => {
+	jest.useFakeTimers().setSystemTime(fakeDate)
+
+	const aircraft = new Aircraft("SmallCargoAircraft")
+	aircraft.setEnqueuedTime(fakeDate)
+
+	aircraftQueue.enqueue(aircraft)
+
+	aircraftQueue.addListener({
+		onAircraftEnqueued: () => {},
+		onAircraftDequeued: (listOfAircraftSubqueues, dequeuedAircraft) => {
+			expect(listOfAircraftSubqueues).toStrictEqual([[], [], [], []])
+			expect(dequeuedAircraft).toBe(aircraft)
+		},
+	})
+
+	aircraftQueue.dequeue()
 })
 
 test("when aircraftQueue is empty, dequeue throws exception", () => {

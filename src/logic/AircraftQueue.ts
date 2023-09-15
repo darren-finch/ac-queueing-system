@@ -1,9 +1,16 @@
-import AircraftSubqueue from "./aircraft-subqueue"
-import { Aircraft } from "./aircraft"
-import AircraftType from "./aircraft-type"
+import AircraftSubqueue from "./AircraftSubqueue"
+import { Aircraft } from "./Aircraft"
+import AircraftType from "./AircraftType"
+import { aircraftTypes } from "../data/AircraftTypes"
+
+export interface AircraftQueueListener {
+	onAircraftEnqueued: (listOfAircraftSubqueues: Aircraft[][]) => void
+	onAircraftDequeued: (listOfAircraftSubqueues: Aircraft[][], dequeuedAircraft: Aircraft) => void
+}
 
 class AircraftQueue {
 	private aircraftSubqueues: AircraftSubqueue[] = []
+	private listeners: AircraftQueueListener[] = []
 
 	// The constructor technically would be the "system boot" operation
 	constructor(aircraftTypes: AircraftType[]) {
@@ -16,9 +23,16 @@ class AircraftQueue {
 		})
 	}
 
+	addListener(listener: AircraftQueueListener) {
+		this.listeners.push(listener)
+		return () => {
+			this.listeners = this.listeners.filter((l) => l !== listener)
+		}
+	}
+
 	enqueue(aircraft: Aircraft) {
 		const aircraftSubqueue = this.aircraftSubqueues.find((aircraftSubqueue) => {
-			return aircraftSubqueue.aircraftType.getName() == aircraft.getName()
+			return aircraftSubqueue.getAircraftTypeName() == aircraft.getName()
 		})
 
 		if (aircraftSubqueue == null) {
@@ -28,6 +42,8 @@ class AircraftQueue {
 		aircraft.setEnqueuedTime(new Date())
 
 		aircraftSubqueue.enqueue(aircraft)
+
+		this.notifyListenersOfEnqueue()
 	}
 
 	dequeue() {
@@ -47,6 +63,8 @@ class AircraftQueue {
 
 			const aircraft = highestPrioritySubqueue.dequeue()!
 			aircraft.setDequeuedTime(new Date())
+
+			this.notifyListenersOfDequeue(aircraft)
 
 			return aircraft
 		}
@@ -83,15 +101,27 @@ class AircraftQueue {
 		return isEmpty
 	}
 
-	getListOfListsOfAircraft() {
-		let listOfListsOfAircraft: Aircraft[][] = []
+	getListOfAircraftSubqueues() {
+		let listOfAircraftSubqueues: Aircraft[][] = []
 
 		for (let i = 0; i < this.aircraftSubqueues.length; i++) {
-			listOfListsOfAircraft.push(this.aircraftSubqueues[i].toList())
+			listOfAircraftSubqueues.push(this.aircraftSubqueues[i].toList())
 		}
 
-		return listOfListsOfAircraft
+		return listOfAircraftSubqueues
+	}
+
+	private notifyListenersOfEnqueue() {
+		const listOfAircraftSubqueues = this.getListOfAircraftSubqueues()
+		this.listeners.forEach((listener) => listener.onAircraftEnqueued(listOfAircraftSubqueues))
+	}
+
+	private notifyListenersOfDequeue(dequeuedAircraft: Aircraft) {
+		const listOfAircraftSubqueues = this.getListOfAircraftSubqueues()
+		this.listeners.forEach((listener) => listener.onAircraftDequeued(listOfAircraftSubqueues, dequeuedAircraft))
 	}
 }
+
+export const aircraftQueueInstance = new AircraftQueue(aircraftTypes)
 
 export default AircraftQueue
