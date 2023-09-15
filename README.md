@@ -9,7 +9,7 @@ Each aircraft type is placed into its own subqueue and when the next aircraft is
 
 # How To Run
 
-To run this app, first ensure you have Docker and Visual Studio Code installed. I have Docker v4.16.2 and VS Code v1.82.2 installed, but this should work on the latest version as well.
+To run this app, first ensure you have Git, Docker, and Visual Studio Code installed. I have Git v2.39.2, Docker v4.16.2, and VS Code v1.82.2 installed, but I believe this should work on later versions as well.
 
 After you have that installed, take the following steps to start the app:
 
