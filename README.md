@@ -20,9 +20,9 @@ After you have that installed, take the following steps to start the app:
 5. Press "Continue". Docker will download the source code from Git and start your dev container.
 6. After the dev container is set up, press "Continue" again.
 7. On the last page, click "Open in VSCode". VSCode will open and connect to the dev container.
-8. After VSCode has finished connecting to the dev container, open a new terminal within VSCode and paste in this command: `/bin/bash setup-environment.sh`. This command will finish the environmental setup necessary to start the app and then start the app.
+8. After VSCode has finished connecting to the dev container, open a new terminal within VSCode and paste in this command: `/bin/bash setup-environment.sh`. This command will finish the environmental setup necessary to start the app and then start the app. This step takes some time.
 
-After following these steps, `localhost:3000` should open in your web browser and you can begin using the AC system.
+After following these steps, `localhost:3000` should open in your web browser and you can begin using the aircraft queueing system. I have tested the app on both Firefox and Edge.
 
 # How To Use App
 
