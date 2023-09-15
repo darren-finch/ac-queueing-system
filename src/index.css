@@ -1,0 +1,149 @@
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+		"Droid Sans", "Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+button {
+	width: fit-content;
+	height: fit-content;
+	border: none;
+	background: gray;
+	color: white;
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 0.5rem;
+}
+
+select {
+	width: fit-content;
+	height: fit-content;
+	border: none;
+	background: gray;
+	color: white;
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 0.5rem;
+}
+
+ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+/* Custom classes */
+.container {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.horizontal {
+	display: flex;
+	flex-direction: row;
+}
+
+.vertical {
+	display: flex;
+	flex-direction: column;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: flex-end;
+}
+
+.align-top {
+	align-items: flex-start;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.align-bottom {
+	align-items: flex-end;
+}
+
+.border {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.mx-0 {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.my-0 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.ms {
+	margin-left: 0.5rem;
+}
+
+.me {
+	margin-right: 0.5rem;
+}
+
+.mx {
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+
+.my {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.px-0 {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.py-0 {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.ps {
+	padding-left: 0.5rem;
+}
+
+.pe {
+	padding-right: 0.5rem;
+}
+
+.px {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+.py {
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.card {
+	background: white;
+	padding: 1rem;
+	border-radius: 4px;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
