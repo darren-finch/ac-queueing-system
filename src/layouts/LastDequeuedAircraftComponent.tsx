@@ -1,7 +1,7 @@
-import { Aircraft } from "../logic/Aircraft"
+import { Aircraft } from "../features/aircraft-queue/AircraftQueueSlice"
 
 export interface LastDequeuedAircraftComponentProps {
-	lastDequeuedAircraft: Aircraft | undefined
+	lastDequeuedAircraft: Aircraft | null | undefined
 }
 
 export const LastDequeuedAircraftComponent: React.FC<LastDequeuedAircraftComponentProps> = ({
@@ -10,15 +10,15 @@ export const LastDequeuedAircraftComponent: React.FC<LastDequeuedAircraftCompone
 	return (
 		<div>
 			<h1>Last Dequeued Aircraft</h1>
-			{lastDequeuedAircraft === undefined ? (
+			{lastDequeuedAircraft === null || lastDequeuedAircraft === undefined ? (
 				<p>No aircraft has been dequeued yet.</p>
 			) : (
 				<div className="card horizontal justify-start align-center">
-					<p className="mx">Aircraft Type: {lastDequeuedAircraft.getName()}</p>
+					<p className="mx">Aircraft Type: {lastDequeuedAircraft.name}</p>
 					<p className="mx"> | </p>
 					<p className="mx">
 						Enqueued Time:{" "}
-						{lastDequeuedAircraft.getEnqueuedTime()?.toLocaleTimeString(["en-US"], {
+						{lastDequeuedAircraft.enqueuedTime?.toLocaleTimeString(["en-US"], {
 							hour: "2-digit",
 							minute: "2-digit",
 							second: "2-digit",
@@ -28,7 +28,7 @@ export const LastDequeuedAircraftComponent: React.FC<LastDequeuedAircraftCompone
 					<p className="mx"> | </p>
 					<p className="mx">
 						Dequeued Time:{" "}
-						{lastDequeuedAircraft.getDequeuedTime()?.toLocaleTimeString(["en-US"], {
+						{lastDequeuedAircraft.dequeuedTime?.toLocaleTimeString(["en-US"], {
 							hour: "2-digit",
 							minute: "2-digit",
 							second: "2-digit",
