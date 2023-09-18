@@ -38,8 +38,32 @@ const initialStateBase: AircraftQueue = {
 		},
 	],
 	lastDequeuedAircraft: null,
-	isBooted: false,
+	isBooted: true,
 }
+
+test("when system is not booted, enqueue throws not initialized error", () => {
+	expect(() =>
+		reducer(
+			produce(initialStateBase, (draftState) => {
+				draftState.isBooted = false
+			}),
+			enqueue({
+				name: "LargePassengerAircraft",
+			})
+		)
+	).toThrow()
+})
+
+test("when system is not booted, dequeue throws not initialized error", () => {
+	expect(() =>
+		reducer(
+			produce(initialStateBase, (draftState) => {
+				draftState.isBooted = false
+			}),
+			dequeue()
+		)
+	).toThrow()
+})
 
 test("when aircraftQueue is empty, enqueue throws error if given aircraft with incorrect type", () => {
 	expect(() =>

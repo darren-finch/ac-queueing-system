@@ -47,6 +47,10 @@ export const aircraftQueueSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		enqueue: (state, action) => {
+			if (!state.isBooted) {
+				throw new Error("System not initialized")
+			}
+
 			const aircraftSubqueue = state.aircraftSubqueues.find((aircraftSubqueue) => {
 				return aircraftSubqueue.aircraftType.name === action.payload.name
 			})
@@ -64,6 +68,10 @@ export const aircraftQueueSlice = createSlice({
 			aircraftSubqueue.aircraft.push(newAircraft)
 		},
 		dequeue: (state) => {
+			if (!state.isBooted) {
+				throw new Error("System not initialized")
+			}
+
 			if (isEmpty(state)) {
 				return
 			}
@@ -85,6 +93,9 @@ export const aircraftQueueSlice = createSlice({
 				state.lastDequeuedAircraft.dequeuedTime = new Date()
 				break
 			}
+		},
+		bootSystem: (state) => {
+			state.isBooted = true
 		},
 	},
 })
@@ -125,5 +136,5 @@ const getNextHighestPrioritySubqueue = (
 	return highestPrioritySubqueue!
 }
 
-export const { enqueue, dequeue } = aircraftQueueSlice.actions
+export const { enqueue, dequeue, bootSystem } = aircraftQueueSlice.actions
 export default aircraftQueueSlice.reducer
